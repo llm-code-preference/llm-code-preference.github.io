@@ -187,7 +187,7 @@
                             <center>
                                 <img id="example" src="./asset/correctness-even-odd.png" width="75%" />
                                 <p class="subtitle has-text-centered">
-                                    TODO
+                                    <i>TODO</i>
                                 </p>
                             </center>
 
@@ -260,7 +260,11 @@
                             <figure class="image">
                                 <img src="./asset/overview.png">
                             </figure>
-                            <figcaption>Overview of <span class="pal">CodeFavor</span>: TODO</figcaption>
+                            <caption>
+                                <i>
+                                    Overview of <span class="pal">CodeFavor</span>: TODO
+                                </i>
+                            </caption>
                             <br>
                         </figure>
 
@@ -308,7 +312,7 @@
                                         </button>
                                     </div>
                                     <div class="block toggle_content" style="display:none">
-                                        <div class="column">
+                                        <div class="column is-size-6">
                                             <ul>
                                                 <li>
                                                     <b>Criteria:</b> code preference requires explicit, fine-grained
@@ -377,7 +381,9 @@
                             <br>
                             <img src="asset/cpb-overview.png">
                             <caption>
-                                Overview of CodePreferenceBench
+                                <i>
+                                    Overview of CodePreferenceBench
+                                </i>
                             </caption>
                             <br>
                         </figure>
@@ -439,7 +445,7 @@
                                 </button>
                             </div>
                             <div class="block toggle_content" style="display:none">
-                                <div class="column">
+                                <div class="column is-size-6">
                                     <ul>
                                         <li><b>Generative models:</b>
                                             are prompt to generate conclusions like "Code A is better than Code B" using
@@ -457,18 +463,40 @@
                             </div>
                         </article>
 
-                        <br><br>
-                        <h2 class="title is-4">Main results</h2>
 
-                        <figure class="image is-64by64">
+                        <article class="message is-multiline is-light is-size-5">
+                            <div class="message-header">
+                                <p>📦 <span class="pal">CodeFavor</span> data</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    <ul>
+                                        <li><b>📦 Commit-Instruct-EditPack:</b> TODO.
+                                        </li>
+                                        <li><b>📦 Critic-Evol-SOSS:</b> TODO.
+                                        </li>
+                                        <li><b>🔨 Post-processing:</b> TODO.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+
+                        <br><br>
+                        <h2 class="title is-4">Main Results</h2>
+
+                        <figure class="image is-64by64" id="fig-main-results">
                             <br>
                             <figure class="image">
                                 <img src="./asset/main-eval.png">
                             </figure>
-                            <figcaption>Accuracy (%) of evaluated models on CodePrefBench.
-                                Scores within 1pp of the highest are highlighted in bold.
-                                Bracketed numbers denote the ranges of uncertain responses,
-                                half of whose ratio is accounted for the final accuracy score.</figcaption>
+                            <caption><i>Accuracy (%) of evaluated models on CodePrefBench.
+                                    Scores within 1pp of the highest are highlighted in bold.
+                                    Bracketed numbers denote the ranges of uncertain responses,
+                                    half of whose ratio is accounted for the final accuracy score.</i></caption>
                             <br>
                         </figure>
                     </div>
@@ -485,6 +513,131 @@
                     <div class="column is-four-fifths">
                         <h2 class="title is-3 has-text-centered">Quantifying Human Preference</h2>
 
+                        <article class="message is-multiline is-light is-size-5">
+                            <div class="message-header">
+                                <p>⚙️ Human baseline setup</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    We engage <b>18 developers</b> (95% contractors have 2+ YOE in programming) to
+                                    provide code preference labels for both (i) creating human-preference benchmark; and
+                                    (ii) serving as human baseline. This section focuses on (ii) -- to quantify the
+                                    performance of human preference in assessing the verifiable properties of code.
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                <p>🔍 Human preference strongly aligns with <span
+                                        style="background-color: greenyellow;">code correctness</span>, but can struggle
+                                    with <span style="background-color: lightpink;">non-functional
+                                        properties</span>.
+                                </p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:block">
+                                <div class="column is-size-6">
+                                    The <a href="#fig-main-results">result figure</a> presents the accuracy
+                                    of human preference via 3-developer major voting:
+
+                                    <ul>
+                                        <li><b>✅ Correctness:</b> human preference <b>best</b> aligns with code
+                                            correctness, which is also the most challenging category for LLMs.
+                                        </li>
+                                        <li><b>🚀 Efficiency:</b> human preference can be suboptimal to the best LLMs.
+                                        </li>
+                                        <li><b>🛡️ Security:</b> human preference is unsure for a
+                                            significant portion (73.9%) of code security pairs.
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </article>
+
+
+                        <h2 class="title is-4">Confidence</h2>
+                        <div class="columns is-max-desktop is-centered">
+                            <div class="column is-size-6">
+                                Developers are overall confident with their annotations, esp. for code correctness,
+                                whose confidence level is higher than that for efficiency and
+                                security, corresponding to the accuracy results.
+                                Notes show that it's partially because correctness can be assessed by manual
+                                testing, while others are less straightforward to evaluate.
+                            </div>
+                            <div class="column has-text-centered">
+                                <img src="asset/confidence.png">
+                                <caption><i>
+                                        Human confidence for different objectives</i>
+                                </caption>
+                            </div>
+                        </div>
+
+                        <h2 class="title is-4">Time</h2>
+                        <div class="columns is-max-desktop is-centered">
+                            <div class="column is-size-6">
+                                <ol>
+                                    <li><b>Human preference is time-consuming:</b> after removing top-1%-longest
+                                        outliers, each
+                                        task can cost each developer <b>7.8 minutes on average</b>, with the
+                                        99-percentile of 26 minutes.
+                                        This could be expected as code is much harder to understand than general
+                                        natural language.
+                                    </li>
+                                    <li><b>The code correctness category is faster</b>/easier to label than that of
+                                        efficiency
+                                        and security, corresponding to the accuracy results and confidence levels.
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="column has-text-centered">
+                                <img src="asset/label-time.png">
+                                <caption><i><a
+                                            href="https://en.wikipedia.org/wiki/Cumulative_distribution_function">CDF</a>
+                                        of labeling time (top-left is faster)</i></caption>
+                            </div>
+                        </div>
+
+                        <h2 class="title is-4">Cost</h2>
+                        <div class="columns is-max-desktop is-centered">
+                            <div class="column is-size-6">
+                                <b>Human preference can be higly costly:</b>
+                                it can be two orders of magnitude more expensive than serving one of the largest
+                                open-weight LLMs. Yet, the overall accuracy of human preference is not as competitive as
+                                that for such large models (mainly due to the huge gap in judging code security).
+                            </div>
+                            <div class="column has-text-centered">
+                                <img src="asset/cost.png">
+                                <caption><i>Estimated per-sample cost and accuracy</i></caption>
+                            </div>
+                        </div>
+
+                        <h2 class="title is-4">Implications and Open Questions</h2>
+                        <div class="columns is-max-desktop is-centered">
+                            <ol>
+                                <li>Human preference strongly aligns with code correctness, but can struggle with
+                                    non-functional properties -- <b>shall we focus on using human preference for
+                                        selecting functional code and leave non-functional properties to LLMs or
+                                        external tools?</b>
+                                </li>
+                                <li>Human preference is expensive -- <b>how to collaborate human preference with LLMs to
+                                        achieve better cost-effectiveness?</b>
+                                </li>
+                                <li>Code preference is time-consuming -- <b>how can we improve the productivity of human
+                                        preference for faster preference annotation?</b>
+                                </li>
+                                <li>Code is much harder to understand than general natural language -- even code
+                                    preferences from experienced developers can be imperfect -- <b>how can we assure the
+                                        quality of openly crowd-sourced preference votes for code?</b>
+                                </li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -505,10 +658,9 @@
                         <figure class="image is-64by64 has-text-centered">
                             <br>
                             <img src="asset/control-exp-data.png">
-                            <caption>
-                                Impact of training <b>data and modeling</b> in training <span
-                                    class="pal">CodeFavor</span>
-                                models.
+                            <caption><i>
+                                    Impact of training <b>data and modeling</b> in training <span
+                                        class="pal">CodeFavor</span> models.</i>
                             </caption>
                             <br>
                         </figure>
@@ -518,7 +670,9 @@
                             <br>
                             <img src="asset/control-exp-input.png">
                             <caption>
-                                Controlled experiments on <b>input prompts</b>.
+                                <i>
+                                    Controlled experiments on <b>input prompts</b>.
+                                </i>
                             </caption>
                             <br>
                         </figure>
@@ -527,7 +681,9 @@
                             <br>
                             <img src="asset/control-exp-modelgen.png">
                             <caption>
-                                Impact of <b>draft and critic models</b> in training with Critic-Evol.
+                                <i>
+                                    Impact of <b>draft and critic models</b> in training with Critic-Evol.
+                                </i>
                             </caption>
                             <br>
                         </figure>
@@ -560,7 +716,7 @@
                                     <br>
                                     <img src="asset/control-exp-modelgen.png">
                                     <caption>
-                                        TODO
+                                        <i>TODO</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -579,7 +735,7 @@
                                     <br>
                                     <img src="asset/control-exp-modelgen.png">
                                     <caption>
-                                        TODO
+                                        <i>TODO</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -599,7 +755,7 @@
                                     <br>
                                     <img src="asset/control-exp-modelgen.png">
                                     <caption>
-                                        TODO
+                                        <i>TODO</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -618,7 +774,7 @@
                                     <br>
                                     <img src="asset/control-exp-modelgen.png">
                                     <caption>
-                                        TODO
+                                        <i>TODO</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -637,7 +793,7 @@
                                     <br>
                                     <img src="asset/control-exp-modelgen.png">
                                     <caption>
-                                        TODO
+                                        <i>TODO</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -684,8 +840,8 @@
                 <br><br>
                 <div class="content">
                     <p>
-                        🤗 Template adapted from the homepage of <a href="https://selfrefine.info/">Self-Refine</a>.
-                        Feel free to use ours with proper attribution.
+                        The template is adapted from <a href="https://selfrefine.info/">Self-Refine</a>.
+                        <br>🤗 Feel free to use ours with proper attribution.
                     </p>
                 </div>
             </div>

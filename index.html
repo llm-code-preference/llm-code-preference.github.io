@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <meta name="description" content="Self-Refine is a framework for iteratively improving outputs from LLMs through a process of iterative creation with feedback"> -->
+    <meta name="keywords" content="Code Preference, LLM4Code, Code LLM, ChatGPT, LLM, GPT4">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learning Code Preference via Synthetic Evolution</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.svg">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+    <script src="./static/js/index.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@v1.x/themes/prism.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+
+<body>
+    <nav class="navbar is-fixed-top is-transparent" role="navigation" aria-label="main navigation">
+        <div class="navbar-menu">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    Table of Content
+                </a>
+                <div class="navbar-dropdown has-text-centered">
+                    <a class="navbar-item" href="#technique">
+                        Technique
+                    </a>
+                    <a class="navbar-item" href="#benchmark">
+                        Benchmark
+                    </a>
+                    <a class="navbar-item" href="#controlled-experiment">
+                        Controlled Experiments
+                    </a>
+                    <a class="navbar-item" href="#case-studies">
+                        Case Studies
+                    </a>
+                    <a class="navbar-item" href="#citation">
+                        Citation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-large">
+                            Learning Code Preference via Synthetic Evolution
+                        </h1>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <a href="https://jw-liu.xyz/">Jiawei Liu</a><sup>1</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=HnkaCSQAAAAJ&hl=en">Thanh
+                                    Nguyen</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=phbnAuIAAAAJ">Mingyue
+                                    Shang</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=nEuMO58AAAAJ">Hantian
+                                    Ding</a><sup>2</sup>
+                            </span>
+                            <br>
+                            <span class="author-block">
+                                <a href="https://eelxpeng.github.io/">Xiaopeng Li</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.irisyuyu.com/">Yu Yu</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://www.amazon.science/author/varun-kumar">Varun Kumar</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a href="https://zijianwang.me/">Zijian Wang</a><sup>2</sup>
+                            </span>
+                        </div>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block"><sup>1</sup><i>
+                                    <img src="asset/uiuc.png" width="12px" />
+                                    University of Illinois Urbana-Champaign</i></span>
+                            <span class="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span class="author-block"><sup>2</sup><i>
+                                    <img src="asset/aws.png" width="24px" />
+                                    AWS AI Labs</i></span>
+                        </div>
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <!-- PDF Link. -->
+                                <span class="link-block">
+                                    <a href="https://arxiv.org/abs/2410.03837"
+                                        class="external-link button is-normal is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+
+                                <!-- Code Link. -->
+                                <span class="link-block">
+                                    <a href="https://github.com/amazon-science/llm-code-preference"
+                                        class="external-link button is-normal is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+
+                                <!-- Dataset Link. -->
+                                <span class="link-block">
+                                    <a href="?" class="external-link button is-normal is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-database"></i>
+                                        </span>
+                                        <span>Data (TBA)</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <article class="message is-warning is-size-5">
+                            <div class="message-header">
+                                <p>Warning</p>
+                                <button class="delete" aria-label="delete"></button>
+                            </div>
+                            <div class="message-body">
+                                This website is still under construction.
+                                Please check back later for more updates.
+                            </div>
+                        </article>
+
+                        <div class="content has-text-justified is-size-5">
+                            <center>
+                                How to <i>effectively</i> and <i>efficiently</i> obtain <b>code preferences</b> is
+                                crucial to study!
+                            </center>
+
+                            <center>
+                                <img id="example" src="./asset/correctness-even-odd.png" width="75%" />
+                                <p class="subtitle has-text-centered">
+                                    TODO
+                                </p>
+                            </center>
+
+                            To this end, our work provides:
+                            <ul>
+                                <li><b>✨Technique:</b> we introduce <span class="pal">CodeFavor</span>, an open recipe
+                                    for training code preference models with synthetic code evolution such as code
+                                    commits and code critiques.</li>
+                                <li><b>✨Benchmark:</b> we release <i>CodePrefBench</i> -- 1364 rigorously curated
+                                    code preference tasks, covering both verifiable objectives (correctness, efficiency,
+                                    and security) and human preference.</li>
+                                <li><b>✨Findings:</b> (i) qualifying cost & performance of human preference based on 18
+                                    developers; (ii) controlled experiments on data, code comments, criteria, & modeling
+                                    in
+                                    training code preference models; and (iii) case studies of LLM preference towards
+                                    code
+                                    correctness, efficiency, and security.</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="columns is-centered">
+                            <div class="publication-links">
+                                <span class="link-block">
+                                    <a href="#technique" class="external-link button is-normal">
+                                        <span>🔗 Technique</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="#benchmark" class="external-link button is-normal">
+                                        <span>🔗 Benchmark</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="#controlled-experiments" class="external-link button is-normal">
+                                        <span>🔗 Controlled Experiments</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="#case-studies" class="external-link button is-normal">
+                                        <span>🔗 Case Studies</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="#citation" class="external-link button is-normal">
+                                        <span>🔗 Citation</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section class="hero" id="technique">
+        <div class="hero-body is-size-5">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-four-fifths">
+                        <h2 class="title is-3 has-text-centered"><span class="pal">CodeFavor</span>: Code Evolution ➜
+                            Code Preference</h2>
+
+                        <figure class="image is-64by64 has-text-centered">
+                            <br>
+                            <figure class="image">
+                                <img src="./asset/overview.png">
+                            </figure>
+                            <figcaption>Overview of <span class="pal">CodeFavor</span>: TODO</figcaption>
+                            <br>
+                        </figure>
+
+                        <div class="columns">
+                            <div class="column has-text-justified">
+                                <h3 class="title is-4">Preference Modeling</h3>
+
+                                <span class="pal">CodeFavor</span> trains code preference models that predict
+                                pairwise preference using the following input formats:
+
+                                <ol>
+                                    <li>
+                                        <b>Instruction:</b> The instruction associated with the code candidates.
+                                    </li>
+                                    <li>
+                                        <b>Code pair:</b> A pair of code snippet candiates to be compared.
+                                    </li>
+                                    <li>
+                                        <b>Criteria:</b> The criteria for comparison, such as correctness and
+                                        efficiency.
+                                    </li>
+                                </ol>
+
+                                <br>
+                                Based on this format, the preference model is trained to predict code preference using
+                                two modeling methods:
+
+                                <ol>
+                                    <li>
+                                        <b>Classification:</b> the preference is decided by the decoding probability of
+                                        next single tokens such as "A" or "B".
+                                    </li>
+                                    <li>
+                                        <b>Generation:</b> the preference is decided by the generation of analysis and
+                                        conclusion over the code pair.
+                                    </li>
+                                </ol>
+
+                                <br>
+                                <b>Design consideration:</b> (TODO) Criteria / Classification / Generation / ...
+
+                                <br><br>
+                                <h3 class="title is-4">Synthetic Data Generation</h3>
+                                <ul>
+                                    <li><b>Code commits (Commit-Instruct):</b>
+                                        TODO.
+                                    </li>
+                                    <br>
+                                    <li><b>Code critiques (Critic-Evol):</b>
+                                        TODO.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <hr>
+    <section class="hero" id="benchmark">
+
+        <div class="hero-body is-size-5">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered ">
+                    <div class="column is-four-fifths">
+                        <h2 class="title is-3 has-text-centered">CodePrefBench: Evaluating Code Preferences</h2>
+
+                        <figure class="image is-64by64 has-text-centered">
+                            <br>
+                            <img src="asset/cpb-overview.png">
+                            <caption>
+                                Overview of CodePreferenceBench
+                            </caption>
+                            <br>
+                        </figure>
+
+                        <br>
+                        <h2 class="title is-4">Objectives</h2>
+                        <ol>
+                            <li><b>Code correctness:</b>
+                                TODO.
+                            </li>
+                            <li><b>Code efficiency:</b>
+                                TODO.
+                            </li>
+                            <li><b>Code security:</b>
+                                TODO.
+                            </li>
+                            <li><b>Human preference:</b>
+                                TODO.
+                            </li>
+                        </ol>
+
+                        <br><br>
+                        <h2 class="title is-4">Quantifying human preference</h2>
+
+                        <br><br>
+                        <h2 class="title is-4">Main results</h2>
+
+                        <div>TODO - Analysis</div>
+
+                        <figure class="image is-64by64">
+                            <br>
+                            <figure class="image">
+                                <img src="./asset/main-eval.png">
+                            </figure>
+                            <figcaption>Accuracy (%) of evaluated models on CodePrefBench.
+                                Scores within 1pp of the highest are highlighted in bold.
+                                Bracketed numbers denote the ranges of uncertain responses,
+                                half of whose ratio is accounted for the final accuracy score.</figcaption>
+                            <br>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+
+    <hr>
+    <section class="hero" id="controlled-experiment">
+        <div class="hero-body is-size-5">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-four-fifths">
+                        <h2 class="title is-3 has-text-centered">Controlled Experiments</h2>
+
+                        TODO - Conclusions.
+
+                        <figure class="image is-64by64 has-text-centered">
+                            <br>
+                            <img src="asset/control-exp-data.png">
+                            <caption>
+                                Impact of training data and modeling in training <span class="pal">CodeFavor</span>
+                                models.
+                            </caption>
+                            <br>
+                        </figure>
+
+
+                        <figure class="image is-64by64 has-text-centered">
+                            <br>
+                            <img src="asset/control-exp-input.png">
+                            <caption>
+                                Controlled experiments on input prompts.
+                            </caption>
+                            <br>
+                        </figure>
+
+                        <figure class="image is-64by64 has-text-centered">
+                            <br>
+                            <img src="asset/control-exp-modelgen.png">
+                            <caption>
+                                Impact of draft and critic models in training with Critic-Evol.
+                            </caption>
+                            <br>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <hr>
+    <section class="hero" id="case-studies">
+        <div class="hero-body is-size-5">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered has-text-centered">
+                    <div class="column is-four-fifths">
+                        <h2 class="title is-3">Case Studies</h2>
+                        <span class="subtitle is-5 is-italic">Examples of CodePrefBench tasks and responses from LLMs
+                            and human developers.</span>
+                        <br><br>
+
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>✅ Code correctness: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        TODO
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
+
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>✅ Code correctness: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        TODO
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
+
+
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>🚀 Code efficiency: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        TODO
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
+
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>🚀 Code efficiency: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        TODO
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
+
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>🛡️ Code security: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        TODO
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
+
+
+    </section>
+
+
+
+
+
+    <hr>
+
+    <section class="section" id="citation">
+        <div class="container is-max-desktop content">
+            <h2 class="title is-3 has-text-centered">Citation</h2>
+
+            <div class="is-size-5">
+                <pre><code>@article{liu2024learning,
+    title = {Learning Code Preference via Synthetic Evolution},
+    author = {Liu, Jiawei and Nguyen, Thanh and Shang, Mingyue and Ding, Hantian and Li, Xiaopeng and Yu, Yu and Kumar, Varun and Wang, Zijian},
+    journal = {arXiv preprint arXiv:2410.03837},
+    year = {2024},
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <!-- back to top -->
+            <div class="content has-text-centered">
+                <span class="link-block">
+                    <a href="#top" class="external-link button is-normal is-dark">
+                        <span class="icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </span>
+                        <span>Back to Top</span>
+                    </a>
+                </span>
+                <br><br>
+                <div class="content">
+                    <p>
+                        🤗 Template adapted from the homepage of <a href="https://selfrefine.info/">Self-Refine</a>.
+                        Feel free to use ours with proper attribution.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>

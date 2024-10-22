@@ -653,7 +653,49 @@
                     <div class="column is-four-fifths">
                         <h2 class="title is-3 has-text-centered">Controlled Experiments</h2>
 
-                        TODO - Conclusions.
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                🔍 Model merging outperforms data mixture by ~5%.
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    We have two sources of datasets: <b>Commit-Instruct-EditPack</b> and
+                                    <b>Critic-Evol-SOSS</b>. To make use of both datasets, we tried two strategies:
+                                    (i) <b>data mixture</b> -- directly mix the two datasets; and (ii) <b>model
+                                        merging</b>
+                                    -- train two models separately and merge them in the inference stage. The result
+                                    indicates that model merging can lightly surpass data mixture by ~5% in overall
+                                    accuracy.
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                🔍 Classification v.s. generation: tradeoffs
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    <ul>
+                                        <li><b>Classification</b> is <b>fast by design</b> and often leads to more
+                                            accurate
+                                            preference for <b>code correctness</b>.
+                                        </li>
+                                        </li>
+                                        <li><b>Generation</b> tends to bring <b>holistic improvements</b>, leading to a
+                                            higher overall score.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+
 
                         <figure class="image is-64by64 has-text-centered">
                             <br>
@@ -664,6 +706,41 @@
                             </caption>
                             <br>
                         </figure>
+
+
+                        <br>
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                🔍 Concrete criteria ➜ accurate preference
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    Removing the criteria field or using a generalist criterion can lead to performance
+                                    degradation.
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                🔍 Code comments can be distracting
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    By default, we strip the code comments of code candidates in both training and
+                                    inference. Our ablation study shows that <b>using code comments in either training
+                                        or inference can overall lead to less accurate preference</b>.
+                                    This is likely due to the self-bias of LLM-generated comments which can bring false
+                                    confidence in code preference prediciton.
+                                </div>
+                            </div>
+                        </article>
 
 
                         <figure class="image is-64by64 has-text-centered">
@@ -677,16 +754,35 @@
                             <br>
                         </figure>
 
-                        <figure class="image is-64by64 has-text-centered">
-                            <br>
-                            <img src="asset/control-exp-modelgen.png">
-                            <caption>
-                                <i>
-                                    Impact of <b>draft and critic models</b> in training with Critic-Evol.
-                                </i>
-                            </caption>
-                            <br>
-                        </figure>
+                        <br>
+                        <article class="message is-light is-size-5">
+                            <div class="message-header has-text-centered">
+                                🔍 Critic-Evol: can we use equally strong draft and critic models?
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column is-size-6">
+                                    Our controlled experiments shows that using the same model for drafting and revising
+                                    in Critic-Evol can lead to <b>performance drops</b>. Additionally, we observe
+                                    <b>self-bias
+                                        again</b>:
+                                    using the same model leads to a higher filtering rate --
+                                    note a sample is only filtered when the critic model thinks the draft is "good
+                                    enough".
+                                </div>
+                                <figure class="image is-64by64 has-text-centered">
+                                    <img src="asset/control-exp-modelgen.png">
+                                    <caption>
+                                        <i>
+                                            Impact of <b>draft and critic models</b> in training with Critic-Evol.
+                                        </i>
+                                    </caption>
+                                </figure>
+                            </div>
+                        </article>
+
                     </div>
                 </div>
             </div>

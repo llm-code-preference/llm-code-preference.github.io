@@ -653,6 +653,9 @@
                     <div class="column is-four-fifths">
                         <h2 class="title is-3 has-text-centered">Controlled Experiments</h2>
 
+                        We compile a list of empirical conclusions based on our controlled experiments:
+                        <br><br>
+
                         <article class="message is-light is-size-5">
                             <div class="message-header has-text-centered">
                                 🔍 Model merging outperforms data mixture by ~5%.
@@ -660,7 +663,7 @@
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <div class="block toggle_content" style="display:none">
+                            <div class="block toggle_content" style="display:block">
                                 <div class="column is-size-6">
                                     We have two sources of datasets: <b>Commit-Instruct-EditPack</b> and
                                     <b>Critic-Evol-SOSS</b>. To make use of both datasets, we tried two strategies:
@@ -800,6 +803,7 @@
                             and human developers.</span>
                         <br><br>
 
+
                         <article class="message is-multiline is-light">
                             <div class="message-header">
                                 <p>✅ Code correctness: ${Conclusion}</p>
@@ -807,10 +811,10 @@
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <div class="block toggle_content" style="display:none">
+                            <div class="block toggle_content" style="display:block">
                                 <figure class="image is-64by64 has-text-centered">
                                     <br>
-                                    <img src="asset/control-exp-modelgen.png">
+                                    <img src="asset/correctness-split.png">
                                     <caption>
                                         <i>TODO</i>
                                     </caption>
@@ -829,7 +833,7 @@
                             <div class="block toggle_content" style="display:none">
                                 <figure class="image is-64by64 has-text-centered">
                                     <br>
-                                    <img src="asset/control-exp-modelgen.png">
+                                    <img src="asset/correctness-pali.png">
                                     <caption>
                                         <i>TODO</i>
                                     </caption>
@@ -849,7 +853,7 @@
                             <div class="block toggle_content" style="display:none">
                                 <figure class="image is-64by64 has-text-centered">
                                     <br>
-                                    <img src="asset/control-exp-modelgen.png">
+                                    <img src="asset/effi-divisor.png">
                                     <caption>
                                         <i>TODO</i>
                                     </caption>
@@ -868,7 +872,7 @@
                             <div class="block toggle_content" style="display:none">
                                 <figure class="image is-64by64 has-text-centered">
                                     <br>
-                                    <img src="asset/control-exp-modelgen.png">
+                                    <img src="asset/effi-number.png">
                                     <caption>
                                         <i>TODO</i>
                                     </caption>
@@ -887,7 +891,7 @@
                             <div class="block toggle_content" style="display:none">
                                 <figure class="image is-64by64 has-text-centered">
                                     <br>
-                                    <img src="asset/control-exp-modelgen.png">
+                                    <img src="asset/sec-cmd.png">
                                     <caption>
                                         <i>TODO</i>
                                     </caption>
@@ -896,6 +900,24 @@
                             </div>
                         </article>
 
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>🛡️ Code security: ${Conclusion}</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <figure class="image is-64by64 has-text-centered">
+                                    <br>
+                                    <img src="asset/sec-sha.png">
+                                    <caption>
+                                        <i>TODO</i>
+                                    </caption>
+                                    <br>
+                                </figure>
+                            </div>
+                        </article>
 
     </section>
 

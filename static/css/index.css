@@ -54,7 +54,6 @@
   font-weight: bolder;
 }
 
-.publication-authors {}
 
 .publication-authors a {
   color: hsl(204, 86%, 53%) !important;
@@ -68,11 +67,7 @@
   display: inline-block;
 }
 
-.publication-banner img {}
 
-.publication-authors {
-  /*color: #4286f4;*/
-}
 
 .publication-video {
   position: relative;
@@ -92,7 +87,6 @@
   height: 100%;
 }
 
-.publication-body img {}
 
 .results-carousel {
   overflow: hidden;
@@ -122,7 +116,6 @@
   border-radius: 5px;
 }
 
-.interpolation-video-column {}
 
 .interpolation-panel .slider {
   margin: 0 !important;

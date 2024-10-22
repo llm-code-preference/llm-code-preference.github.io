@@ -151,6 +151,16 @@
                                         <span>Data (TBA)</span>
                                     </a>
                                 </span>
+
+                                <!-- Citation Link. -->
+                                <span class="link-block">
+                                    <a href="#citation" class="external-link button is-normal is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-link"></i>
+                                        </span>
+                                        <span>BibTeX</span>
+                                    </a>
+                                </span>
                             </div>
                         </div>
 
@@ -209,6 +219,11 @@
                                     </a>
                                 </span>
                                 <span class="link-block">
+                                    <a href=" #quant-hpref" class="external-link button is-normal">
+                                        <span>🔗 Quantifying Human Preference</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
                                     <a href="#controlled-experiments" class="external-link button is-normal">
                                         <span>🔗 Controlled Experiments</span>
                                     </a>
@@ -216,11 +231,6 @@
                                 <span class="link-block">
                                     <a href="#case-studies" class="external-link button is-normal">
                                         <span>🔗 Case Studies</span>
-                                    </a>
-                                </span>
-                                <span class="link-block">
-                                    <a href="#citation" class="external-link button is-normal">
-                                        <span>🔗 Citation</span>
                                     </a>
                                 </span>
                             </div>
@@ -287,17 +297,59 @@
                                 </ol>
 
                                 <br>
-                                <b>Design consideration:</b> (TODO) Criteria / Classification / Generation / ...
+                                <article class="message is-multiline is-light">
+                                    <div class="message-header">
+                                        <p>💡 Design considerations</p>
+                                        <button class="button toggle_button">
+                                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <div class="block toggle_content" style="display:none">
+                                        <div class="column">
+                                            <ul>
+                                                <li>
+                                                    <b>Criteria:</b> code preference requires explicit, fine-grained
+                                                    declaration of criteria (following
+                                                    <a href="https://arxiv.org/abs/2310.08491">Prometheus</a>) to
+                                                    make code preferences more decidable.
+                                                </li>
+                                                <li>
+                                                    <b>Classification:</b> the classification modeling provides the
+                                                    advantage of efficiency in training and inference. Additionally,
+                                                    while training over synthetic data might introduce noisy
+                                                    internal reasoning traces (esp. for harder tasks), learning to
+                                                    directly classify the preference can avoid the impact of confusing
+                                                    traces.
+                                                </li>
+                                                <li>
+                                                    <b>Generation:</b> just like LLM-as-a-Judge, generation modeling
+                                                    provides better interpretability when the preference decision is
+                                                    obscure. Meanwhile, generation modeling is more natural when
+                                                    training a preference model based on a trained model.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </article>
 
                                 <br><br>
                                 <h3 class="title is-4">Synthetic Data Generation</h3>
                                 <ul>
                                     <li><b>Code commits (Commit-Instruct):</b>
-                                        TODO.
+                                        <span class="pal">CodeFavor</span> transforms a given code commit into a
+                                        synthetic code preference training sample. Specifically, it employs a critic
+                                        model to rephrase the pre-commit code to a <i>rejected</i> code candidate and
+                                        the post-commit code to the <i>accepted</i> code candidate. Code quality
+                                        filtering is further applied to ensure the quality of the preference samples.
                                     </li>
                                     <br>
                                     <li><b>Code critiques (Critic-Evol):</b>
-                                        TODO.
+                                        Given an code instruction, <span class="pal">CodeFavor</span> first lets a
+                                        smaller model generate a draft code candidate. A larger critic model is then
+                                        used to check its code quality and provide feedback. If the draft code is
+                                        considered improveable, the critic model will provide a revised code candidate,
+                                        combining both we obtain a contrastive code pair for training the preference
+                                        model.
                                     </li>
                                 </ul>
                             </div>
@@ -327,8 +379,24 @@
                             <br>
                         </figure>
 
+                        <article class="message is-multiline is-light">
+                            <div class="message-header">
+                                <p>💡 Sample task</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <img id="example" src="./asset/correctness-even-odd.png" />
+                            </div>
+                        </article>
+
                         <br>
-                        <h2 class="title is-4">Objectives</h2>
+                        <h2 class="title is-4">Setup</h2>
+
+                        We adapt a comprehensive set of objectives (encoded by the criteria field) to evaluate the code
+                        preferences of both LLMs and human developers:
+
                         <ol>
                             <li><b>Code correctness:</b>
                                 TODO.
@@ -344,8 +412,6 @@
                             </li>
                         </ol>
 
-                        <br><br>
-                        <h2 class="title is-4">Quantifying human preference</h2>
 
                         <br><br>
                         <h2 class="title is-4">Main results</h2>
@@ -369,9 +435,23 @@
     </section>
 
 
+    <hr>
+    <section class="hero" id="quant-hpref">
+        <div class="hero-body is-size-5">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-four-fifths">
+                        <h2 class="title is-3 has-text-centered">Quantifying Human Preference</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <hr>
-    <section class="hero" id="controlled-experiment">
+    <section class="hero" id="controlled-experiments">
         <div class="hero-body is-size-5">
             <div class="container is-max-desktop">
                 <div class="columns is-centered">

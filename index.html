@@ -297,7 +297,7 @@
                                 </ol>
 
                                 <br>
-                                <article class="message is-multiline is-light">
+                                <article class="message is-multiline is-light is-size-5">
                                     <div class="message-header">
                                         <p>💡 Design considerations</p>
                                         <button class="button toggle_button">
@@ -379,7 +379,7 @@
                             <br>
                         </figure>
 
-                        <article class="message is-multiline is-light">
+                        <article class="message is-multiline is-light is-size-5">
                             <div class="message-header">
                                 <p>💡 Sample task</p>
                                 <button class="button toggle_button">
@@ -394,29 +394,68 @@
                         <br>
                         <h2 class="title is-4">Setup</h2>
 
-                        We adapt a comprehensive set of objectives (encoded by the criteria field) to evaluate the code
-                        preferences of both LLMs and human developers:
+                        <b>Code preference can never be evaluated from just one angle!</b>
+                        Therefore, we adapt a comprehensive set of objectives (encoded by the criteria field) to
+                        evaluate the code preferences of both LLMs and human developers:
 
                         <ol>
-                            <li><b>Code correctness:</b>
-                                TODO.
+                            <li><b>✅ Code correctness:</b>
+                                the ground-truth label is determined by exercising code candiates over
+                                massive
+                                <a href="https://github.com/evalplus/evalplus">EvalPlus</a> test cases.
                             </li>
-                            <li><b>Code efficiency:</b>
-                                TODO.
+                            <li><b>🚀 Code efficiency:</b>
+                                labels are obtained by profiling the # of CPU instructions of code
+                                candidates over performan-exercising tasks and test inputs in <a
+                                    href="https://www.arxiv.org/abs/2408.06450">EvalPerf</a>.
                             </li>
-                            <li><b>Code security:</b>
-                                TODO.
+                            <li><b>🛡️ Code security:</b>
+                                each task includes a pair of secure and vulnerable code snippets, whose
+                                security
+                                is
+                                exaimined by static analyzers in <a
+                                    href="https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks">CyberSecEval</a>.
                             </li>
-                            <li><b>Human preference:</b>
-                                TODO.
+                            <li><b>👍 Human preference:</b>
+                                we engage 18 developers and have 3 of them to label each code pair.
+                                The code candidates are sampled from LLMs and are paired using the largest
+                                edit
+                                distance
+                                (to make them look different enough).
+                                More statistics of human annotations are available in the section of <a
+                                    href="#quant-hpref">Quantifying Human Preference</a>.
                             </li>
                         </ol>
 
+                        <br>
+                        <article class="message is-multiline is-light is-size-5">
+                            <div class="message-header">
+                                <p>⚙️ Examinee setup</p>
+                                <button class="button toggle_button">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="block toggle_content" style="display:none">
+                                <div class="column">
+                                    <ul>
+                                        <li><b>Generative models:</b>
+                                            are prompt to generate conclusions like "Code A is better than Code B" using
+                                            greedy decoding.
+                                        </li>
+                                        <li><b>Classification models:</b>
+                                            decide their preference based on the decoding probability of the next token
+                                            of "A" and "B".
+                                        </li>
+                                        <li><b>Human baseline:</b> is conducted by having three developers for
+                                            each task via major voting.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
 
                         <br><br>
                         <h2 class="title is-4">Main results</h2>
-
-                        <div>TODO - Analysis</div>
 
                         <figure class="image is-64by64">
                             <br>
@@ -464,7 +503,8 @@
                             <br>
                             <img src="asset/control-exp-data.png">
                             <caption>
-                                Impact of training data and modeling in training <span class="pal">CodeFavor</span>
+                                Impact of training <b>data and modeling</b> in training <span
+                                    class="pal">CodeFavor</span>
                                 models.
                             </caption>
                             <br>
@@ -475,7 +515,7 @@
                             <br>
                             <img src="asset/control-exp-input.png">
                             <caption>
-                                Controlled experiments on input prompts.
+                                Controlled experiments on <b>input prompts</b>.
                             </caption>
                             <br>
                         </figure>
@@ -484,7 +524,7 @@
                             <br>
                             <img src="asset/control-exp-modelgen.png">
                             <caption>
-                                Impact of draft and critic models in training with Critic-Evol.
+                                Impact of <b>draft and critic models</b> in training with Critic-Evol.
                             </caption>
                             <br>
                         </figure>

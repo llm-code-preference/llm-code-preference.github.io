@@ -51,10 +51,10 @@
                 </a>
                 <div class="navbar-dropdown has-text-centered">
                     <a class="navbar-item" href="#technique">
-                        Technique
+                        Technique: <span class="pal">CodeFavor</span>
                     </a>
                     <a class="navbar-item" href="#benchmark">
-                        Benchmark
+                        Benchmark: CodePrefBench
                     </a>
                     <a class="navbar-item" href="#quant-hpref">
                         Quantifying Human Preference
@@ -183,7 +183,7 @@
                                             <button class="button is-info is-light toggle_button">
                                                 <i class="fas fa-angle-down" aria-hidden="true"></i>
                                                 &nbsp;&nbsp;
-                                                Ttoggle to show sample responses
+                                                Toggle to show sample responses
                                             </button>
                                             <div class="block toggle_content" style="display:none">
                                                 <img id="example" src="./asset/correctness-even-odd-bot.png" />
@@ -265,7 +265,7 @@
             <div class="container is-max-desktop">
                 <div class="columns is-centered">
                     <div class="column is-four-fifths">
-                        <h2 class="title is-3 has-text-centered"><span class="pal">CodeFavor</span>: Code Evolution ➜
+                        <h2 class="title is-3 has-text-centered"><span class="pal">CodeFavor</span>: Code Evolution 🡲
                             Code Preference</h2>
 
                         <figure class="image is-64by64 has-text-centered">
@@ -454,13 +454,11 @@
                                     href="https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks">CyberSecEval</a>.
                             </li>
                             <li><b>👍 Human preference:</b>
-                                we engage 18 developers and have 3 of them to label each code pair.
-                                The code candidates are sampled from LLMs and are paired using the largest
-                                edit
-                                distance
-                                (to make them look different enough).
-                                More statistics of human annotations are available in the section of <a
-                                    href="#quant-hpref">Quantifying Human Preference</a>.
+                                we engage 18 developers, with 3 annotator per code pair.
+                                The code candidates are sampled from LLMs and are paired using the maximum
+                                edit distance to ensure sufficient differentiation.
+                                Detailed annotation statistics are available in the <a href="#quant-hpref">Quantifying
+                                    Human Preference</a> section.
                             </li>
                         </ol>
 
@@ -630,11 +628,10 @@
                         <div class="columns is-max-desktop is-centered">
                             <div class="column is-size-6">
                                 <ol>
-                                    <li><b>Human preference is time-consuming:</b> after removing top-1%-longest
-                                        outliers, each
-                                        task can cost each developer <b>7.8 minutes on average</b>, with the
-                                        99-percentile of 26 minutes.
-                                        This could be expected as code is much harder to understand than general
+                                    <li><b>Labeling human pref. is time-consuming:</b> after removing
+                                        top-1%-longest outliers, each task can cost each developer <b>7.8 minutes on
+                                            average</b>, with the 99-percentile of 26 minutes.
+                                        This is expected as code can be much harder to understand than general
                                         natural language.
                                     </li>
                                     <li><b>The code correctness category is faster</b>/easier to label than that of
@@ -677,15 +674,9 @@
 
                         <article class="message is-light">
                             <div class="message-body">
-                                Human preference is expensive -- <b>how to collaborate human preference with LLMs to
-                                    achieve better cost-effectiveness?</b>
-                            </div>
-                        </article>
-
-                        <article class="message is-light">
-                            <div class="message-body">
-                                Code preference is time-consuming -- <b>how can we improve the productivity of human
-                                    preference for faster preference annotation?</b>
+                                Labeling human preference for code is expensive and time-consuming -- <b>how can we
+                                    improve the productivity of human preference for more cost-effective and faster
+                                    preference annotation?</b>
                             </div>
                         </article>
 
@@ -773,7 +764,7 @@
                         <br>
                         <article class="message has-text-text-40 is-light is-size-5">
                             <div class="message-header has-text-centered">
-                                🔍 Concrete criteria ➜ accurate preference
+                                🔍 Detailing criteria leads to more accurate preference
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>

@@ -167,31 +167,43 @@
                             </div>
                         </div>
 
-                        <article class="message is-warning is-size-5">
-                            <div class="message-header">
-                                <p>Warning</p>
-                                <button class="delete" aria-label="delete"></button>
-                            </div>
-                            <div class="message-body">
-                                This website is still under construction.
-                                Please check back later for more updates.
-                            </div>
-                        </article>
-
                         <div class="content has-text-justified is-size-5">
                             <center>
-                                How to <i>effectively</i> and <i>efficiently</i> obtain <b>code preferences</b> is
-                                crucial to study!
+
                             </center>
 
                             <center>
-                                <img id="example" src="./asset/correctness-even-odd.png" width="75%" />
-                                <p class="subtitle has-text-centered">
-                                    <i>TODO</i>
-                                </p>
+                                <div class="columns is-centered">
+                                    <div class=" column is-three-quarters">
+                                        <article>
+                                            <i>Quzz time! Try this yourself!</i>
+                                            <div class="message-header">
+                                                <img id="example" src="./asset/correctness-even-odd-top.png" />
+                                            </div>
+                                            <button class="button is-info is-light toggle_button">
+                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                                &nbsp;&nbsp;
+                                                Ttoggle to show sample responses
+                                            </button>
+                                            <div class="block toggle_content" style="display:none">
+                                                <img id="example" src="./asset/correctness-even-odd-bot.png" />
+                                                <caption>
+                                                    <i>
+                                                        If this takes a while & brain cells -- deciding code preference
+                                                        is actually a challenging reasoning task (compared to general
+                                                        text styling preference). Prominent LLMs can also struggle with
+                                                        it sometimes! 🤯
+                                                    </i>
+                                                </caption>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
                             </center>
 
-                            To this end, our work provides:
+                            <br>
+                            How to <i>effectively</i> & <i>efficiently</i> obtain <b>code preference</b> is crucial
+                            to study! To this end, we present:
                             <ul>
                                 <li><b>✨Technique:</b> we introduce <span class="pal">CodeFavor</span>, an open recipe
                                     for training code preference models with synthetic code evolution such as code

@@ -295,7 +295,8 @@
                                 <ol>
                                     <li>
                                         <b>Classification:</b> the preference is decided by the decoding probability of
-                                        next single tokens such as "A" or "B".
+                                        next single tokens such as "A" or "B" (following <a
+                                            href="https://arxiv.org/pdf/2305.10425">SLiC-HF</a>).
                                     </li>
                                     <li>
                                         <b>Generation:</b> the preference is decided by the generation of analysis and
@@ -388,6 +389,7 @@
                             <br>
                         </figure>
 
+                        <br>
                         <article class="message is-multiline is-light is-size-5">
                             <div class="message-header">
                                 <p>💡 Sample task</p>
@@ -474,11 +476,30 @@
                             <div class="block toggle_content" style="display:none">
                                 <div class="column is-size-6">
                                     <ul>
-                                        <li><b>📦 Commit-Instruct-EditPack:</b> TODO.
+                                        <li><b>📦 Commit-Instruct-EditPack:</b> 20.6k code preference samples
+                                            synthesized using permissive code commits from <a
+                                                href="https://huggingface.co/datasets/nuprl/EditPackFT">EditPackFT</a>
+                                            (22.4k permissive Python commits).
+                                            We use Llama-3-70B-Instruct as the critic model.
                                         </li>
-                                        <li><b>📦 Critic-Evol-SOSS:</b> TODO.
+                                        <li><b>📦 Critic-Evol-SOSS:</b> 41.6k code preference samples.
+                                            We run Llama-3-8B-Instruct as the draft model over 50.6k coding
+                                            instructions from the <a
+                                                href="https://huggingface.co/datasets/bigcode/self-oss-instruct-sc2-exec-filter-50k">
+                                                Self-OSS-Instruct dataset
+                                            </a> to produce draft code responses.
+                                            We then use Llama-3-70B-Instruct as the critic model to provide feedback and
+                                            generate the revised code, after filtering out 17.9% of "good enough"
+                                            drafts.
                                         </li>
-                                        <li><b>🔨 Post-processing:</b> TODO.
+                                        <li><b>🔨 Post-processing:</b>
+                                            To mitigate positional bias, we augment the dataset by flipping the order
+                                            within each
+                                            code pair, which also doubles the training samples. Besides, we clip the
+                                            code comments in Critic-Evol
+                                            samples, given that comments barely affect code quality metrics and
+                                            LLM-generated comments may
+                                            let faulty code "sound right".
                                         </li>
                                     </ul>
                                 </div>
@@ -806,7 +827,7 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>✅ Code correctness: ${Conclusion}</p>
+                                <p>✅ Human baseline misses requirement details in the instruction.</p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -816,7 +837,9 @@
                                     <br>
                                     <img src="asset/correctness-split.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>All models capture the “lower-case” requirement, while all human annotators
+                                            miss this detail in the description and choose Code A (likely due to its
+                                            simplicity).</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -825,7 +848,7 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>✅ Code correctness: ${Conclusion}</p>
+                                <p>✅ Reasoning mistakes in Claude 3.5 Sonnet and DeepSeek V2.5</p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -835,7 +858,10 @@
                                     <br>
                                     <img src="asset/correctness-pali.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>Both Claude 3.5 Sonnet and DeepSeek V2.5 yield false claims due to their
+                                            broken reasonings. Our <span class="pal">CodeFavor</span> classification
+                                            model also predicts false conclusion. Yet, the three annotators as the human
+                                            baseline consistently and correctly select the right code.</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -845,7 +871,8 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>🚀 Code efficiency: ${Conclusion}</p>
+                                <p>🚀 Algorithmic complexity analysis is important!
+                                </p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -855,7 +882,10 @@
                                     <br>
                                     <img src="asset/effi-divisor.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>While Claude 3.5 Sonnet is aware of the better O(√n) complexity of CODE A,
+                                            Mistral Large 2 misses the algorithmic analysis and favors CODE B for being
+                                            "straightforward".
+                                        </i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -864,7 +894,7 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>🚀 Code efficiency: ${Conclusion}</p>
+                                <p>🚀 Don't under weigh the efficiency significance of built-in functions!</p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -874,7 +904,20 @@
                                     <br>
                                     <img src="asset/effi-number.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>
+                                            Code A is efficient for using the built-in function
+                                            <code>str.count()</code>, while Code B's efficiency is demonstrated by a
+                                            single-pass implementation (constant optimization).
+                                            Using built-in functions has a much bigger significance here as
+                                            <code>str.count()</code>
+                                            is implemented not only in native C but also using <a
+                                                href="https://web.archive.org/web/20201107074620/http://effbot.org/zone/stringlib.htm">extensively
+                                                optimized
+                                                algorithms</a>.
+                                            Here, DeepSeek V2.5 under-weighs the significance of
+                                            <code>str.count()</code> cpmpared to a single-pass implementation at the
+                                            same algorithmic complexity
+                                        </i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -883,7 +926,8 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>🛡️ Code security: ${Conclusion}</p>
+                                <p>🛡️ <code>os.popen</code> or <code>subprocess.run</code>? Human baseline predicts
+                                    false security preference.</p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -893,7 +937,12 @@
                                     <br>
                                     <img src="asset/sec-cmd.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>Both Claude 3.5 Sonnet and the CodeFavor model choose the right side (Code
+                                            B), as <code>subprocess.run</code> is generally safe to command injection.
+                                            Nonetheless, Gemini 1.5 Pro concludes with a tied preference as it
+                                            thinks both code can be command-injected, which is not true but might come
+                                            by design due to some security consideration. Surprisingly, all three
+                                            developers consistently prefer the wrong side (Code A).</i>
                                     </caption>
                                     <br>
                                 </figure>
@@ -902,7 +951,8 @@
 
                         <article class="message is-multiline is-light">
                             <div class="message-header">
-                                <p>🛡️ Code security: ${Conclusion}</p>
+                                <p>🛡️ <code>SHA-256</code> or <code>SHA-1</code> encryption? Defensive
+                                    code security preference in Gemini.</p>
                                 <button class="button toggle_button">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </button>
@@ -912,7 +962,13 @@
                                     <br>
                                     <img src="asset/sec-sha.png">
                                     <caption>
-                                        <i>TODO</i>
+                                        <i>While most models choose the right side as they know that SHA-256 is a more
+                                            secure version of SHA-1, Gemini 1.5 Pro fails to mention this point
+                                            and leads to a tied conclusion. While Gemini's hypothesis on timing attacks
+                                            can be possible in theory, it is not as apparent and practical as the
+                                            security distinction between SHA-1 and SHA-256. Nonetheless, this can come
+                                            from a security consideration to avoid Gemini Pro being used in
+                                            cyber-security tasks.</i>
                                     </caption>
                                     <br>
                                 </figure>
